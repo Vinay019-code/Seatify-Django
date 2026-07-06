@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2 class="mb-4">
+
+🎟 My Bookings
+
+</h2>
+
+{% for booking in bookings %}
+
+<div class="card booking-card mb-4">
+
+<div class="row g-0">
+
+<div class="col-md-3">
+
+{% if booking.movie.poster %}
+
+<img src="{{ booking.movie.poster.url }}"
+class="booking-poster">
+
+{% endif %}
+
+</div>
+
+<div class="col-md-9">
+
+<div class="card-body">
+
+<h3>
+
+{{ booking.movie.title }}
+
+</h3>
+
+<p>
+
+📅 {{ booking.booking_date }}
+
+</p>
+
+<p>
+
+💺 Seats :
+{{ booking.seats }}
+
+</p>
+
+<p>
+
+💰 ₹{{ booking.total_price }}
+
+</p>
+
+{% if booking.status == "Booked" %}
+
+<span class="badge bg-success">
+
+Booked
+
+</span>
+
+{% else %}
+
+<span class="badge bg-danger">
+
+Cancelled
+
+</span>
+
+{% endif %}
+
+<br><br>
+
+<a href="{% url 'download_ticket' booking.id %}"
+
+class="btn btn-primary">
+
+📄 Download Ticket
+
+</a>
+
+{% if booking.status == "Booked" %}
+
+<a href="{% url 'cancel_booking' booking.id %}"
+
+class="btn btn-danger">
+
+Cancel Ticket
+
+</a>
+
+{% endif %}
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+{% empty %}
+
+<div class="alert alert-warning">
+
+No bookings found.
+
+</div>
+
+{% endfor %}
+
+{% endblock %}

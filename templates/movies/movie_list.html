@@ -1,0 +1,164 @@
+ {% extends "base.html" %}
+
+
+
+  {% block content %}
+
+
+
+<div id="movieCarousel"
+     class="carousel slide mb-5"
+     data-bs-ride="carousel">
+
+    <div class="carousel-inner">
+
+        {% for movie in movies %}
+
+        <div class="carousel-item {% if forloop.first %}active{% endif %}">
+
+            <img src="{{ movie.poster.url }}"
+                 class="d-block w-100"
+                 style="height:450px; object-fit:cover;">
+
+            <div class="carousel-caption">
+                <h3>{{ movie.title }}</h3>
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    <button class="carousel-control-prev"
+            type="button"
+            data-bs-target="#movieCarousel"
+            data-bs-slide="prev">
+
+        <span class="carousel-control-prev-icon"></span>
+
+    </button>
+
+    <button class="carousel-control-next"
+            type="button"
+            data-bs-target="#movieCarousel"
+            data-bs-slide="next">
+
+        <span class="carousel-control-next-icon"></span>
+
+    </button>
+
+</div>
+
+
+{% comment %}   
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+<h2 class="fw-bold">
+
+🔥 Now Showing
+
+</h2>
+
+<span class="badge bg-danger">
+
+{{ movies.count }} Movies
+
+</span>
+
+</div> {% endcomment %}
+
+  <div class="row">
+
+<form method="GET" class="mb-5">
+
+    <div class="input-group search-box">
+
+        <input
+            type="text"
+            name="search"
+            class="form-control"
+            placeholder="🔍 Search Movies..."
+             value="{{ request.GET.search }}">
+
+        <button type ="submit" class="btn btn-danger">
+
+            Search
+
+        </button>
+
+    </div>
+
+</form>
+
+ <div class="alert alert-info">
+
+            Total Movies : <strong>{{ movies.count }}</strong>
+
+        
+
+    </div>
+
+
+    {% for movie in movies %}
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4 ">
+    {% comment %} <div class="card"
+    style="height:100%"> {% endcomment %}
+       <div class="card h-100 movie-card">
+
+{% if movie.poster %}
+
+<img src="{{ movie.poster.url }}"
+     class="card-img-top movie-poster">
+
+{% endif %}
+
+<div class="card-body">
+
+<h4>
+
+{{ movie.title }}
+
+</h4>
+
+<div class="mb-2">
+
+<span class="badge bg-danger">
+
+{{ movie.category }}
+
+</span>
+
+</div>
+
+<p>
+
+⏱ {{ movie.duration }} mins
+
+</p>
+
+<p>
+
+🎫 ₹{{ movie.ticket_price }}
+
+</p>
+
+<a href="{% url 'movie_detail' movie.id %}"
+
+class="btn btn-book w-100">
+
+Book Now
+
+</a>
+
+</div>
+
+</div>
+   
+</div>
+
+
+ {% endfor %}
+</div>
+  
+  {% endblock  %}

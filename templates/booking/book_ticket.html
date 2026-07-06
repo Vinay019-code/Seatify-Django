@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content  %} 
+
+<h2> Book Ticket </h2>
+<h4> {{ movie.title }} </h4>
+
+<p> Available Seats:
+    {{ movie.available_seats }} </p>
+
+
+    {% if error %}
+
+    <div class="alert alert-danger">
+
+        {{ error }}
+    </div>
+
+    {% endif %}
+
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <button class ="btn btn-success ">
+            confirm Booking </button>
+
+        </form>
+
+
+
+
+
+
+
+{% endblock  %} 

@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container">
+
+<div class="row">
+
+<div class="col-md-4">
+
+<div class="card text-center p-4">
+
+<img src="https://ui-avatars.com/api/?name={{ request.user.username }}&background=ff4d4d&color=fff&size=200"
+class="rounded-circle mx-auto mb-3"
+width="150">
+
+<h3>{{ request.user.username }}</h3>
+
+<p>{{ request.user.email }}</p>
+
+<p>
+Member Since<br>
+{{ request.user.date_joined|date:"d M Y" }}
+</p>
+
+</div>
+
+</div>
+
+<div class="col-md-8">
+
+<div class="row">
+
+<div class="col-md-4">
+
+<div class="card stats-card">
+
+<h1>
+
+{{ total_bookings }}
+
+</h1>
+
+<p>Total Bookings</p>
+
+</div>
+
+</div>
+
+<div class="col-md-4">
+
+<div class="card stats-card">
+
+<h1>
+
+₹{{ total_spent }}
+
+</h1>
+
+<p>Total Spent</p>
+
+</div>
+
+</div>
+
+<div class="col-md-4">
+
+<div class="card stats-card">
+
+<h1>
+
+{{ reviews_count }}
+
+</h1>
+
+<p>Reviews</p>
+</div>
+</div>
+
+</div>
+
+<br>
+
+<div class="card p-4">
+
+<h4>
+
+Recent Bookings
+
+</h4>
+
+<hr>
+
+{% for booking in bookings %}
+
+<p>
+
+{{ booking.movie.title }}
+
+</p>
+
+{% empty %}
+
+<p>No bookings yet.</p>
+
+{% endfor %}
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+{% endblock %}

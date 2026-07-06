@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2> Booking Analytics
+</h2>
+
+<div class="card p-3">
+    <h4> Booking Per Movie</h4>
+
+    <img src="data:image/png;base64,{{ graph }}"
+    class="img-fluid">
+</div>
+
+
+{% endblock  %}

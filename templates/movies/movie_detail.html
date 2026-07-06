@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="card shadow p-4">
+
+    <h2>{{ movie.title }}</h2>
+
+    <hr>
+    {% if average_rating %}
+
+        <div class="alert alert-warning">
+
+    <h4>
+        ⭐ Average Rating:
+        {{ average_rating|floatformat:1 }}/5
+    </h4>
+
+    <p>
+        Based on
+        {{ reviews.count }}
+        review{{ reviews.count|pluralize }}
+    </p>
+
+</div>
+
+{% endif %}
+
+
+
+    <p>
+        <strong>Description:</strong>
+        {{ movie.description }}
+    </p>
+
+    <p>
+        <strong>Duration:</strong>
+        {{ movie.duration }} mins
+    </p>
+
+    <p>
+        <strong>Release Date:</strong>
+        {{ movie.release_date }}
+    </p>
+
+    <p>
+        <strong>Available Seats:</strong>
+        {{ movie.available_seats }}
+    </p>
+
+    <p>
+        <strong>Ticket Price:</strong>
+        ₹{{ movie.ticket_price }}
+    </p>
+
+    <a href="{% url 'select_seats' movie.id %}"
+       class="btn btn-success" style="width:150px;  margin-left:500px; padding-top:5px;">
+        Select Seats
+    </a>
+
+</div>
+
+<br>
+
+<!-- Review Form -->
+
+<div class="card mt-5 p-4">
+
+<h3>
+
+⭐ Reviews
+
+</h3>
+
+<hr>
+
+<div class="card shadow p-4">
+
+    <h3>⭐ Rate This Movie</h3>
+
+    {% if user.is_authenticated %}
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        <div class="mb-3">
+            {{ form.rating.label_tag }}
+            {{ form.rating }}
+        </div>
+
+        <div class="mb-3">
+            {{ form.comment.label_tag }}
+            {{ form.comment }}
+        </div>
+
+        <button class="btn btn-primary">
+            Submit Review
+        </button>
+
+    </form>
+
+    {% else %}
+
+    <p>
+        Please login to review this movie.
+    </p>
+
+    {% endif %}
+
+</div>
+</div>
+
+<br>
+
+<!-- Reviews List -->
+
+
+<div class="card mt-4 p-4">
+<h3>
+
+User Reviews
+
+</h3>
+
+<hr>
+
+    {% for review in reviews %}
+
+    <div class="mb-3">
+
+        <strong>
+            {{ review.user.username }}
+        </strong>
+
+        <br>
+
+        Rating:
+        ⭐ {{ review.rating }}/5
+
+        <br>
+
+        {{ review.comment }}
+
+        <br>
+
+        <small class="text-muted">
+            {{ review.created_at }}
+        </small>
+
+    </div>
+
+    <hr>
+
+    {% empty %}
+
+    <p>No reviews yet.</p>
+
+    {% endfor %}
+
+</div>
+</div>
+
+{% endblock %}

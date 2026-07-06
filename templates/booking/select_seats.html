@@ -1,0 +1,239 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>{{ movie.title }} </h2>
+<style>
+    .seat-row{
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        margin-bottom :12px;
+    }
+    
+    .gap{
+        width:60px;
+    }
+    
+    .screen{
+    width:80%;
+    margin:auto;
+    background:#ffc107;
+    color:white;
+    text-align:center;
+    font-size:30px;
+    font-weight:bold;
+    padding:10px;
+    margin-bottom:40px;
+
+}
+.seat-row{
+    display:flex;
+    justify-content:center;
+    margin-bottom:10px;
+
+}
+.btn-check:checked + .seat-btn{
+    background-color:blue !important;
+}
+
+</style>
+
+  <form method="POST">
+     {% csrf_token %}
+
+<div class="screen-container">
+
+    <div class="screen">
+
+        SCREEN
+
+    </div>
+
+</div>
+
+
+
+
+
+<div class="seat-legend">
+    <div>
+        <span class="seat available"></span>
+        Available
+    </div>
+    <div>
+        <span class="seat selected"></span>
+        Selected
+    </div>
+    <div>
+        <span class="seat booked"></span>
+        Booked
+    </div>
+</div>
+
+
+    <!--- A row  -->
+<div class="seat-grid">
+
+    {% for seat in seats %}
+    {% if "A" in seat.seat_number %}
+
+    {% if seat.is_booked %}
+
+    <label class="btn btn-danger m-1 seat-label">
+        {{ seat.seat_number }}
+    </label>
+
+    {% else %}
+        <input type="checkbox" name="seats" value="{{ seat.id }}" class="btn-check" id="seat{{ seat.id }}">
+    <label class ="btn btn-warning m-1 seat-btn seat-label"  for="seat{{ seat.id }}">
+             {{ seat.seat_number }} </label>
+
+    {% endif %}
+    {% endif %}
+{% endfor %}
+    </div>
+
+
+    {% comment %} B row  {% endcomment %}
+<div class="seat-row">
+
+    {% for seat in seats %}
+    {% if "B" in seat.seat_number %}
+
+    {% if seat.is_booked %}
+
+    <label class="btn btn-danger m-1 seat-label">
+        {{ seat.seat_number }}
+    </label>
+
+    {% else %}
+        <input type="checkbox" name="seats" value="{{ seat.id }}" class="btn-check" id="seat{{ seat.id }}">
+    <label class ="btn btn-warning m-1 seat-btn seat-label"  for="seat{{ seat.id }}">
+             {{ seat.seat_number }} </label>
+
+    {% endif %}
+    {% endif %}
+{% endfor %}
+    </div>
+
+
+
+    <div class="seat-row">
+
+    {% for seat in seats %}
+    {% if "C" in seat.seat_number %}
+
+    {% if seat.is_booked %}
+
+    <label class="btn btn-danger m-1 seat-label">
+        {{ seat.seat_number }}
+    </label>
+
+    {% else %}
+        <input type="checkbox" name="seats" value="{{ seat.id }}" class="btn-check" id="seat{{ seat.id }}">
+    <label class ="btn btn-warning m-1 seat-btn seat-label"  for="seat{{ seat.id }}">
+             {{ seat.seat_number }} </label>
+
+    {% endif %}
+    {% endif %}
+{% endfor %}
+    </div>
+
+
+    
+  <div class="seat-row">
+
+    {% for seat in seats %}
+    {% if "D" in seat.seat_number %}
+
+    {% if seat.is_booked %}
+
+    <label class="btn btn-danger m-1 seat-label">
+        {{ seat.seat_number }}
+    </label>
+
+    {% else %}
+        <input type="checkbox" name="seats" value="{{ seat.id }}" class="btn-check" id="seat{{ seat.id }}">
+    <label class ="btn btn-warning m-1 seat-btn seat-label"  for="seat{{ seat.id }}">
+             {{ seat.seat_number }} </label>
+
+    {% endif %}
+    {% endif %}
+{% endfor %}
+    </div>
+    
+<br><br>
+
+<div class="booking-summary">
+    <h4>Booking Summary</h4>
+    <hr>
+    <p>    Selected Seats:
+     <span id="selectedSeats">
+            None
+        </span>
+    </p>
+    <p>
+     Total Seats:
+    <span id="seatCount">0</span>
+    </p>
+    <p> Total Price: ₹<span id="price">0</span></p>
+    <button class="btn btn-book btn-lg">
+        Continue to Payment
+    </button>
+</div>
+</form>
+
+
+
+<script> 
+   
+
+   const ticketPrice = 250;
+
+const boxes = document.querySelectorAll(
+    'input[type="checkbox"]'
+);
+
+const price = document.getElementById("price");
+
+const seatCount = document.getElementById("seatCount");
+
+const selectedSeats = document.getElementById("selectedSeats");
+
+boxes.forEach(box => {
+
+    box.addEventListener("change", () => {
+
+        const checked = document.querySelectorAll(
+            'input[type="checkbox"]:checked'
+        );
+
+        seatCount.innerHTML = checked.length;
+
+        price.innerHTML = checked.length * ticketPrice;
+
+        let names = [];
+
+        checked.forEach(item => {
+
+            names.push(
+                document.querySelector(
+                    'label[for="' + item.id + '"]'
+                ).innerText.trim()
+            );
+
+        });
+
+        selectedSeats.innerHTML =
+            names.join(", ");
+
+    });
+
+});
+
+</script>
+
+
+{% comment %} </div> {% endcomment %}
+{% endblock  %}

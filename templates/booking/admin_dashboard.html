@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block  content %}
+<h2> Admin Dashboard</h2>
+
+<div class="row">
+    <div class ="col-md-3">
+        <div class ="alert alert-primary">
+            Total Movies:
+            <h3>{{ total_movies }}</h3>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="alert alert-success">
+            Total Users:
+            <h3>{{ total_users }}</h3>
+        </div>
+    </div>
+      <div class="col-md-3">
+        <div class="alert alert-warning">
+            Total Bookings:
+            <h3>{{ total_bookings }}</h3>
+        </div>
+    </div>
+      <div class="col-md-3">
+        <div class="alert alert-danger">
+            Revenue:
+            <h3>₹{{ total_revenue }}</h3>
+        </div>
+    </div>
+</div>
+
+<div class ="alert alert-info">
+    Available Seats:
+    <strong>{{ total_seats }}</strong>
+</div>
+
+<h3>recent Bookings</h3>
+
+<table class="table table-bordered">
+    <tr >
+        <th>User</th>
+         <th>Movie</th>
+        <th>Seats</th>
+        <th>Amount</th>
+    </tr>
+     {% for booking in recent_bookings %}
+    <tr>
+        <td>{{ booking.user.username }}</td>
+        <td>{{ booking.movie.title }}</td>
+        <td>{{ booking.seats }}</td>
+        <td>₹{{ booking.total_price }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+
+{% endblock  %}

@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2 class="mb-4"> Analytics Dashboard</h2>
+
+<div class="row">
+
+<div class="col-md-3">
+<div class="card text-center p-3">
+<h3>{{ total_movies }}</h3>
+<p>Total Movies</p>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="card text-center p-3">
+<h3>{{ total_users }}</h3>
+<p>Total Users</p>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="card text-center p-3">
+<h3>{{ total_bookings }}</h3>
+<p>Total Bookings</p>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="card text-center p-3">
+<h3>₹{{ total_revenue }}</h3>
+<p>Total Revenue</p>
+</div>
+</div>
+
+</div>
+
+<hr>
+
+<h3> Most Booked Movies</h3>
+
+<canvas id="movieChart"></canvas>
+
+<hr>
+
+<h3> Booking Status</h3>
+
+<canvas id="statusChart"></canvas>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+const movieLabels = [
+{% for item in movie_stats %}
+'{{ item.movie__title }}',
+{% endfor %}
+];
+
+const movieData = [
+{% for item in movie_stats %}
+{{ item.total }},
+{% endfor %}
+];
+
+new Chart(document.getElementById("movieChart"),{
+
+type:'bar',
+
+data:{
+labels:movieLabels,
+datasets:[{
+label:'Bookings',
+data:movieData
+}]
+}
+
+});
+
+const statusLabels=[
+{% for item in booking_status %}
+'{{ item.status }}',
+{% endfor %}
+];
+
+const statusData=[
+{% for item in booking_status %}
+{{ item.total }},
+{% endfor %}
+];
+
+new Chart(document.getElementById("statusChart"),{
+
+type:'pie',data:{labels:statusLabels,
+    datasets:[{
+    data:statusData
+    }]
+}
+
+});
+
+</script>
+
+{% endblock %}

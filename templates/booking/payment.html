@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-7">
+            <div class="card payment-card">
+                <div class="card-body">
+                    <h2 class="text-center mb-4">🎟 Booking Summary</h2>
+                    <hr>
+
+    <div class="row mb-3">
+            <div class="col-5">
+                <strong>Movie</strong>
+</div>
+
+<div class="col-7">{{ movie.title }}
+</div>
+
+</div>
+
+<div class="row mb-3"><div class="col-5"><strong>Seats</strong></div>
+
+<div class="col-7">{{ seat_count }}</div>
+</div>
+
+<div class="row mb-3">
+
+<div class="col-5">
+<strong>Price</strong>
+</div>
+
+<div class="col-7">
+₹{{ movie.ticket_price }}
+</div>
+
+</div>
+
+<hr>
+
+<h3 class="text-end">
+
+Total :
+
+<span class="text-warning">
+
+₹{{ total_price }}
+
+</span>
+
+</h3>
+
+<form method="POST">
+
+{% csrf_token %}
+
+<button
+class="btn btn-book btn-lg w-100 mt-4">
+
+Confirm Payment
+
+</button>
+
+</form>
+
+<p class="text-center mt-3">
+
+🔒 Secure Booking
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+{% endblock %}
